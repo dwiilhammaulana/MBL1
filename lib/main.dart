@@ -5,25 +5,55 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key}); // tambahkan ini
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Fruit Catcher Game',
-      home: GameScreen(), // hapus const di sini
+      home: GameScreen(),
     );
   }
 }
 
-class GameScreen extends StatelessWidget {
-  const GameScreen({super.key}); // tambahkan ini
+class GameScreen extends StatefulWidget {
+  const GameScreen({super.key});
+
+  @override
+  State<GameScreen> createState() => _GameScreenState();
+}
+
+class _GameScreenState extends State<GameScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Game akan ditampilkan di sini'),
+      body: Stack(
+        children: [
+          Positioned(
+            top: 50,
+            left: 20,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.black54,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Text(
+                'Score: 1',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
