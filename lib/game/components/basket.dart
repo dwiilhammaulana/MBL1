@@ -2,7 +2,8 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
-class Basket extends PositionComponent with HasGameRef, CollisionCallbacks {
+class Basket extends PositionComponent 
+    with HasGameRef, CollisionCallbacks {
   Basket() : super(size: Vector2(80, 60));
 
   @override
@@ -12,7 +13,12 @@ class Basket extends PositionComponent with HasGameRef, CollisionCallbacks {
     position = Vector2(gameRef.size.x / 2, gameRef.size.y - 100);
     anchor = Anchor.center;
     
-    add(RectangleHitbox());
+    final hitbox = RectangleHitbox(
+      size: size,
+      position: Vector2(-size.x / 2, -size.y / 2),
+    );
+    add(hitbox);
+
   }
 
   @override
@@ -23,23 +29,31 @@ class Basket extends PositionComponent with HasGameRef, CollisionCallbacks {
       ..color = Colors.brown
       ..style = PaintingStyle.fill;
 
-    // Draw basket body
     final rect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(0, 0, size.x, size.y),
+      Rect.fromLTWH(-size.x / 2, -size.y / 2, size.x, size.y),
       const Radius.circular(10),
     );
     canvas.drawRRect(rect, paint);
 
-    // Draw handle
     final handlePaint = Paint()
       ..color = Colors.brown[800]!
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
 
     final handlePath = Path()
-      ..moveTo(10, 0)
-      ..quadraticBezierTo(size.x / 2, -20, size.x - 10, 0);
+      ..moveTo(-size.x / 2 + 10, -size.y / 2)
+      ..quadraticBezierTo(0, -size.y / 2 - 20, size.x / 2 - 10, -size.y / 2);
 
     canvas.drawPath(handlePath, handlePaint);
+    
+    // DEBUG: Draw hitbox outline
+    final debugPaint = Paint()
+      ..color = Colors.red.withOpacity(0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+    canvas.drawRect(
+      Rect.fromLTWH(-size.x / 2, -size.y / 2, size.x, size.y),
+      debugPaint,
+    );
   }
 }
