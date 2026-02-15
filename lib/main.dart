@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
+import 'package:fruit_catcher/game/managers/audio_manager.dart';
 import 'game/fruit_catcher_game.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AudioManager().initialize();
   runApp(const MyApp());
 }
 
